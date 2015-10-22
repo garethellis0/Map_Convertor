@@ -184,8 +184,9 @@ void writeMapFile(std::vector<char> map, std::string file_name, int width) {
 int main() {
 	std::cout << "*** Map Convertor ***\n"
 		<< "The map you wish to convert should have only those characters representing the actual map \n"
-		<< "Any other information, including width, height, and type, should be removed beforehand\n"
-		<< "(and perhaps placed in the map name for reference)\n";
+		<< "Any other information, including width, height, and type, should be removed beforehand \n"
+		<< "(and perhaps placed in the map name for reference) \n"
+		<< "ALL FILES MUST BE LOCATED IN THE SAME FOLDER AS THE PROGRAM \n";
 	std::vector<char> open_chars = getOpenChars(); //All characters that represent open space
 	std::string original_map_file_name = getFileNameOf("the original map file"); //Name of the map file to convert
 	std::vector<char> original_map_file = getCharactersFromFile(original_map_file_name); //Get the original map file
@@ -196,6 +197,3 @@ int main() {
 
 	return 0;
 }
-
-// ===================
-// Tests

@@ -9,7 +9,6 @@ with 1's representing obstacles and 0's representing open space*/
 #include <sstream>
 #include <sys/stat.h>
 
-
 //Prints all elements in a vector<char>
 void printCharVector(std::vector<char> char_vector) {
 	for (int i = 0; i < char_vector.size(); i++) {
@@ -151,9 +150,26 @@ std::vector<char> convertMap(std::vector<char> original_map_file, std::vector<ch
 }
 
 
+//Gets the map type from the user (1 is a 1 dimensional (single line) map, 2 is a 2 Dimensional map)
+int getMapType() {
+	int map_type;
+
+	std::cout << "Please Enter a Map Type (1 is a 1 dimensional (single line) map, 2 is a 2 Dimensional map): ";
+	std::cin >> map_type;
+
+	while ((map_type != 1) && (map_type != 2)) {
+		std::cout << "Invalid Entry \n"
+			<< "Please Enter a Map Type (1 is a 1 dimensional (single line) map, 2 is a 2 Dimensional map): ";
+		std::cin >> map_type;
+	}
+
+	return map_type;
+}
+
+
 // vector<char> string -> void
 //Writes a given vector<char> to a given file(name) 
-void writeMapFile(std::vector<char> map, std::string file_name, int width) {
+void writeMapFile(std::vector<char> map, std::string file_name, int width, int map_type) {
 	char y_or_n;
 
 	//Checks that file does not already exist, asks if user wants to continue if it does
@@ -167,17 +183,25 @@ void writeMapFile(std::vector<char> map, std::string file_name, int width) {
 			file_name = getFileNameOf("converted map file");
 		}
 	}
-	// REMINDER - WRITE PRETTY / PRACTICAL functions that write it as a readable map or as a single line
-	//Writes all characters to a file
-	std::ofstream file;
-	file.open(file_name);
-	for (int i = 0; i < map.size(); i++) {
-		if ((i % width) == 0) {
-			file << '\n';
-		}
-		file << map[i];
-	}
 
+	//Writes all characters to a file, on one line if map_type is 1, else on multiple lines
+	if (map_type == 1) {
+		std::ofstream file;
+		file.open(file_name);
+		for (int i = 0; i < map.size(); i++) {
+			file << map[i];
+		}
+	}
+	else {
+		std::ofstream file;
+		file.open(file_name);
+		for (int i = 0; i < map.size(); i++) {
+			if ((i % width) == 0) {
+				file << '\n';
+			}
+			file << map[i];
+		}
+	}
 }
 
 
@@ -191,9 +215,13 @@ int main() {
 	std::string original_map_file_name = getFileNameOf("the original map file"); //Name of the map file to convert
 	std::vector<char> original_map_file = getCharactersFromFile(original_map_file_name); //Get the original map file
 	std::vector<char> converted_map_file = convertMap(original_map_file, open_chars); //Convert the map
+	int map_type = getMapType();
+	int width = 0;
+	if (map_type == 2) {
+		width = getWidth();
+	}
 	std::string new_map_file_name = getFileNameOf("converted map file"); //Desired name for map file
-	int width = getWidth();
-	writeMapFile(converted_map_file, new_map_file_name, width);
+	writeMapFile(converted_map_file, new_map_file_name, width, map_type);
 
 	return 0;
 }

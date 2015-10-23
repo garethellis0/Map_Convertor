@@ -117,6 +117,8 @@ std::vector<char> getCharactersFromFile(std::string file_name) {
 		file.open(file_name);
 	} 
 
+	std::cout << "Converting... \n";
+
 	while (std::getline(file, present_line)) {
 		lines.push_back(present_line);
 	}
@@ -139,11 +141,13 @@ std::vector<char> convertMap(std::vector<char> original_map_file, std::vector<ch
 		for (int j = 0; j < open_chars.size(); j++) {
 			if (original_map_file[i] == open_chars[j]) {
 				converted_map_file.push_back('0');
+				break;
 			}
-			else {
+			else if (j == (open_chars.size() - 1)) {
 				converted_map_file.push_back('1');
 			}
 		}
+
 	}
 
 	return converted_map_file;
@@ -215,6 +219,7 @@ int main() {
 	std::string original_map_file_name = getFileNameOf("the original map file"); //Name of the map file to convert
 	std::vector<char> original_map_file = getCharactersFromFile(original_map_file_name); //Get the original map file
 	std::vector<char> converted_map_file = convertMap(original_map_file, open_chars); //Convert the map
+	std::cout << "Done! \n";
 	int map_type = getMapType();
 	int width = 0;
 	if (map_type == 2) {

@@ -188,12 +188,12 @@ void writeMapFile(std::vector<char> map, std::string file_name, int width, int m
 		}
 	}
 
-	//Writes all characters to a file, on one line if map_type is 1, else on multiple lines
+	//Writes all characters to a file, each character to it's own line if map_type is 1, else as a visual 2D map on multiple lines
 	if (map_type == 1) {
 		std::ofstream file;
 		file.open(file_name);
 		for (int i = 0; i < map.size(); i++) {
-			file << map[i];
+			file << map[i] << std::endl;
 		}
 	}
 	else {
